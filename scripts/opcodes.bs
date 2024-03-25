@@ -65,6 +65,48 @@ OP_2 // till OP_16
 // OP_4
 // STACK[ 4 ]
 
+OP_RESERVED
+// Terminates the program immediately
+
 
 // ========================================================
 // FLOW CONTROL
+
+// <condition> OP_IF
+//    <script if condition is true>
+// OP_ELSE
+//    <script if condition is false>
+// OP_ENDIF
+
+
+/*
+if(condition) {
+    2
+}
+*/
+OP_1 OP_IF OP_2 OP_ENDIF
+
+/*
+if(condition) {
+    2
+}else{
+    3
+}
+*/
+OP_0 OP_IF OP_2 OP_ELSE OP_3 OP_ENDIF
+
+/*
+!if(condition) {
+    2
+}
+*/
+OP_0 OP_NOTIF OP_2 OP_ENDIF
+
+/*
+!if(condition) {
+    2
+}else{
+    3
+}
+*/
+OP_1 OP_IF OP_2 OP_ELSE OP_3 OP_ENDIF

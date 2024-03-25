@@ -1,0 +1,70 @@
+// bs => bitcoin script
+
+// ========================================================
+// CONSTANTS
+
+OP_0
+OP_FALSE
+// Stack :
+// let a = bytes[] ---push--> STACK[]
+// STACK[ a ]
+
+NO_WORD // but opcode given a value
+// Stack :
+// 0x05 ---push--> STACK[]
+// STACK[ 0x05 ]
+
+OP_PUSHDATA1
+// Eg ==>
+// OP_PUSHDATA1
+// Input :
+// 0A
+// 00112233445566778899
+// 0A, 00112233445566778899
+// [bytes size to be pushed into stack], [data]
+// Stack :
+// 10_bytes(00112233445566778899) ---push--> STACK[]
+// STACK[ 00112233445566778899 ]
+
+OP_PUSHDATA2
+// Eg ==>
+// OP_PUSHDATA2
+// Input :
+// 0A00
+// 00112233445566778899
+// [bytes size (2 bytes representation) to be pushed into stack (little endian format)], [data]
+// Stack :
+// 10_bytes(00112233445566778899) ---push--> STACK[]
+// STACK[ 00112233445566778899 ]
+
+OP_PUSHDATA4
+// Eg ==>
+// OP_PUSHDATA4
+// Input :
+// 0A000000
+// 00112233445566778899
+// [bytes size (4 bytes representation) to be pushed into stack (little endian format)], [data]
+// Stack :
+// 10_bytes(00112233445566778899) ---push--> STACK[]
+// STACK[ 00112233445566778899 ]
+
+OP_1NEGATE
+// Stack :
+// -1 ---push--> STACK[]
+// STACK[ -1 ]
+
+OP_1
+OP_TRUE
+// Stack :
+// 1 ---push--> STACK[]
+// STACK[ 1 ]
+
+OP_2 // till OP_16
+// Stack :
+// Pushes the number into the stack
+// OP_4
+// STACK[ 4 ]
+
+
+// ========================================================
+// FLOW CONTROL

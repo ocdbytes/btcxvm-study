@@ -1,0 +1,3 @@
+[submodule "btcdeb"]
+	path = btcdeb
+	url = https://github.com/bitcoin-core/btcdeb

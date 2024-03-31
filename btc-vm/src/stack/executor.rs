@@ -1,4 +1,4 @@
-use crate::opcodes::{add::add, new_num::new_num};
+use crate::opcodes::{add::add, new_num::new_num, sub::sub};
 
 use super::stack::Stack;
 
@@ -13,6 +13,11 @@ pub fn execute_code(seq : Vec<String>) {
         // ADD OPERATION
         if code == "OP_ADD" {
             add(&mut vm_state)
+        }
+
+        // SUB OPERATION
+        if code == "OP_SUB" {
+            sub(&mut vm_state)
         }
 
         // for numeric input

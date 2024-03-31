@@ -123,8 +123,10 @@ OP_EQUAL
 // - Returns 1 if the inputs are exactly equal, 0 otherwise.
 // => OP_EQUAL
 // => STACK = [ 1 1 ]
+// => STACK = [ 1 2 ]
 // ...
-// STACK = [ 1 1 ], output = true
+// STACK = [ 1 ]
+// STACK = [ 0 ] !! FAILED
 
 OP_EQUALVERIFY
 // - same as OP_EQUAL but (OP_EQUAL + OP_VERIFY)

@@ -10,7 +10,16 @@ OR
 
 - OPCODES
 - BASIC SCRIPTS
-- ....more
+- STACK OPS
+
+```sh
+
+# To read the stack
+
+STACK = TOP_OF_STACK-->[ 0x10 0x20 0x30 ]
+top element = 0x10
+
+```
 
 ## VM
 

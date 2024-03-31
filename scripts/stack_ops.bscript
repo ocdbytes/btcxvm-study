@@ -1,0 +1,119 @@
+// Stack
+
+OP_TOALTSTACK
+// - Puts the input onto the top of the alt stack. Removes it from the main stack.
+// => OP_TOALTSTACK
+// => STACK = [ 0x10 ]
+// => ALT_STACK = []
+// ...
+// STACK = []
+// ALT_STACK = [ 0x10 ]
+
+OP_FROMALTSTACK
+// - Puts the input onto the top of the main stack. Removes it from the alt stack.
+// => OP_TOALTSTACK
+// => STACK = []
+// => ALT_STACK = [ 0x10 ]
+// ...
+// STACK = [ 0x10 ]
+// ALT_STACK = []
+
+OP_IFDUP
+// - If the top stack value is not 0, duplicate it.
+// => OP_IFDUP
+// => STACK = [ 0x10 ]
+// ...
+// STACK = [ 0x10 0x10 ]
+
+OP_DEPTH
+// - Puts the number of stack items onto the stack.
+// => OP_DEPTH
+// => STACK = [ 0x10 0x20 0x30 ]
+// ...
+// STACK = [ 0x03 0x10 0x20 0x30 ]
+
+OP_DROP / [OP_2DROP]
+// - Removes the top stack item.
+// - [Removes the top two stack items.]
+// => OP_DROP
+// => STACK = [ 0x10 0x20 ]
+// ...
+// STACK = [ 0x20 ]
+
+OP_DUP / [OP_2DUP] / [[OP_3DUP]]
+// - Duplicates the top stack item.
+// - [Duplicates the top two stack items (in same order)]
+// - [[Duplicates the top three stack items (in same order)]]
+// => OP_DUP
+// => STACK = [ 0x10 0x20 ]
+// ...
+// STACK = [ 0x10 0x10 0x20 ]
+
+OP_NIP
+// - Removes the second-to-top stack item.
+// => OP_NIP
+// => STACK = [ 0x20 0x10 0x30 ]
+// ...
+// STACK = [ 0x20 0x30 ]
+
+OP_OVER / [OP_2OVER]
+// - Copies the second-to-top stack item to the top.
+// - [Copies the pair of items two spaces back in the stack to the front.]
+// => OP_OVER
+// => STACK = [ 0x30 0x20 0x10 ]
+// ...
+// STACK = [ 0x20 0x30 0x20 0x10 ]
+
+OP_PICK
+// - The item n back in the stack is copied to the top.
+// => 1 2 3 4 2 OP_PICK
+// => STACK = []
+// ...
+// => 2 OP_PICK
+// => STACK = [ 4 3 2 1 ]
+// numbering    1 2 3 4 
+// => copies the 2nd item from the top of the stack to the top of the stack
+// ...
+// STACK = [ 3 4 3 2 1 ]
+
+OP_ROLL
+// - The item n back in the stack is moved to the top.
+// => 1 2 3 4 2 OP_ROLL
+// => STACK = []
+// ...
+// => 2 OP_ROLL
+// => STACK = [ 4 3 2 1 ]
+// numbering    1 2 3 4 
+// => moves the second element [3] to the top of the stack
+// ...
+// STACK = [ 3 4 2 1 ]
+
+OP_ROT / [OP_2ROT]
+// - The 3rd item down the stack is moved to the top.
+// - [The fifth and sixth items back are moved to the top of the stack.]
+// => OP_ROT
+// => STACK = [ 3 2 1 ]
+// ...
+// STACK = [ 1 3 2 ]
+
+OP_SWAP / [OP_2SWAP]
+// - The top two items on the stack are swapped.
+// - [Swaps the top two pairs of items.]
+// => OP_SWAP
+// => STACK = [ 1 2 3 4 ]
+// ...
+// STACK = [ 2 1 3 4 ]
+
+OP_TUCK
+// - The item at the top of the stack is copied and inserted before the second-to-top item.
+// => OP_TUCK
+// => STACK = [ 1 2 3 4 ]
+// ...
+// STACK = [ 1 2 1 3 4 ]
+
+OP_SIZE
+// - Pushes the string length of the top element of the stack (without popping it).
+// => OP_SIZE
+// => STACK = [ "fruit" ]
+// ...
+// STACK = [ 0x05 "fruit" ]

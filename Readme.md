@@ -36,6 +36,7 @@ cargo run '1 4 OP_ADD'
 | opcode       | vm input |
 | ------------ | -------- |
 | OP_ADD       | OP_ADD   |
+| OP_SUB       | OP_SUB   |
 | OP_0 - OP-16 | 0 - 16   |
 
 ### Current VM state

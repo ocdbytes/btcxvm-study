@@ -1,0 +1,31 @@
+// Crypto
+
+OP_RIPEMD160
+// - The input is hashed using RIPEMD-160.
+// - i/p => top stack element
+
+OP_SHA1
+// - The input is hashed using SHA-1.
+// - i/p => top stack element
+
+OP_SHA256
+// - The input is hashed using SHA-256.
+// - i/p => top stack element
+
+OP_HASH160
+// - The input is hashed twice: first with SHA-256 and then with RIPEMD-160.
+// - i/p => top stack element
+
+OP_HASH256
+// - The input is hashed two times with SHA-256.
+// - i/p => top stack element
+
+OP_CODESEPARATOR
+// - All of the signature checking words will only match signatures to the data after the most recently-executed OP_CODESEPARATOR.
+// explanation :
+// https://xiaohuiliu.medium.com/op-codeseparator-97dc039a8ec8
+// https://wiki.bitcoinsv.io/index.php/OP_CODESEPARATOR
+
+OP_CHECKSIG
+// - The entire transaction's outputs, inputs, and script (from the most recently-executed OP_CODESEPARATOR to the end) are hashed. The signature used by OP_CHECKSIG must be a valid signature for this hash and public key. If it is, 1 is returned, 0 otherwise.
+// - i/p => sig pubkey

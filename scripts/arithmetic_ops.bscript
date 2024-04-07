@@ -1,0 +1,111 @@
+// Arithmetics
+
+OP_1ADD
+// - 1 is added to the input
+// => OP_1ADD
+// => STACK = [ 0x02 0x01 ]
+// ...
+// STACK = [ 0x03 0x01 ]
+
+OP_1SUB
+// - 1 is subtracted from the input
+// => OP_1SUB
+// => STACK = [ 0x02 0x01 ]
+// ...
+// STACK = [ 0x01 0x01 ]
+
+OP_NEGATE
+// - sign of input is flipped
+// => OP_NEGATE
+// => STACK = [ 0x01 0x02 ]
+// ...
+// STACK = [ 0x-1 0x02 ]
+
+OP_ABS	
+// - The input is made positive.
+// => OP_ABS
+// => STACK = [ 0x-1 ]
+// ...
+// STACK = [ 0x01 ]
+
+OP_NOT
+// - If the input is 0 or 1, it is flipped. Otherwise the output will be 0.
+// => OP_NOT
+// => STACK = [ 0x00 ]
+// ...
+// STACK = [ 0x01 ]
+
+OP_0NOTEQUAL
+// - Returns 0 if the input is 0. 1 otherwise.
+
+/****
+stack format :
+
+[     ]
+[  b  ]
+[  a  ]
+****/
+
+OP_ADD
+// - a is added to b.
+// i/p -> a b
+
+OP_SUB
+// - b is subtracted from a
+// i/p -> a b
+
+OP_BOOLAND
+// - If both a and b are not 0, the output is 1. Otherwise 0.
+// i/p -> a b
+
+OP_BOOLOR
+// - If a or b is not 0, the output is 1. Otherwise 0.
+// - i/p -> a b
+
+OP_NUMEQUAL
+// - Returns 1 if the numbers are equal, 0 otherwise.
+// - i/p -> a b
+
+OP_NUMEQUALVERIFY
+// - Same as OP_NUMEQUAL, but runs OP_VERIFY afterward.
+// - i/p -> a b
+
+OP_NUMNOTEQUAL
+// - Returns 1 if the numbers are not equal, 0 otherwise.
+// - i/p -> a b
+
+OP_LESSTHAN
+// - Returns 1 if a is less than b, 0 otherwise.
+// - i/p -> a b
+
+OP_GREATERTHAN
+// - Returns 1 if a is greater than b, 0 otherwise.
+// - i/p -> a b
+
+OP_LESSTHANOREQUAL
+// - Returns 1 if a is less than or equal to b, 0 otherwise.
+// - i/p -> a b
+
+OP_GREATERTHANOREQUAL
+// - Returns 1 if a is greater than or equal to b, 0 otherwise.
+// - i/p -> a b
+
+OP_MIN
+// - Returns the smaller of a and b.
+// - i/p -> a b
+
+OP_MAX
+// - Returns the larger of a and b.
+// - i/p -> a b
+
+OP_WITHIN
+// - Returns 1 if x is within the specified range (left-inclusive), 0 otherwise.
+// - i/p -> x min max
+// => 0 5 4 OP_WITHIN
+// => STACK :
+// [  4  ]
+// [  5  ]
+// [  0  ]
+// ...
+// STACK = [ 1 ]
+// => 4 is within range [0,5)

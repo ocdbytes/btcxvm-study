@@ -11,14 +11,14 @@ OR
 - OPCODES
 - BASIC SCRIPTS
 - STACK OPS
+- CRYPTO OPS
+- TIME LOCK OPS
 
 ```sh
-
 # To read the stack
 
 STACK = TOP_OF_STACK-->[ 0x10 0x20 0x30 ]
-top element = 0x10
-
+STACK.top = 0x10
 ```
 
 ## VM
@@ -58,5 +58,4 @@ STACK : ["1"]
 STACK : ["1", "2"]
 
 --------------------STACK (final) : ["3"]
-
 ```

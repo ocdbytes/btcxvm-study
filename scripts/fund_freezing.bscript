@@ -1,0 +1,4 @@
+<sig> <pub_key> <expiry_time>
+OP_CHECKLOCKTIMEVERIFY OP_DROP OP_DUP
+OP_HASH160 <pub_key_hash> OP_EQUALVERIFY
+OP_CHECKSIG

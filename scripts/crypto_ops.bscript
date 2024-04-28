@@ -28,4 +28,21 @@ OP_CODESEPARATOR
 
 OP_CHECKSIG
 // - The entire transaction's outputs, inputs, and script (from the most recently-executed OP_CODESEPARATOR to the end) are hashed. The signature used by OP_CHECKSIG must be a valid signature for this hash and public key. If it is, 1 is returned, 0 otherwise.
-// - i/p => sig pubkey
+// - i/p => [ pubkey sig ]
+
+OP_CHECKSIGVERIFY
+// - Same as OP_CHECKSIG, but OP_VERIFY is executed afterward.
+// - i/p => [ pubkey sig ]
+
+OP_CHECKMULTISIG
+// - Compares the first signature against each public key until it finds an ECDSA match. Starting with the subsequent public key, it compares the second signature against each remaining public key until it finds an ECDSA match. The process is repeated until all signatures have been checked or not enough public keys remain to produce a successful result. All signatures need to match a public key. Because public keys are not checked again if they fail any signature comparison, signatures must be placed in the scriptSig using the same order as their corresponding public keys were placed in the scriptPubKey or redeemScript. If all signatures are valid, 1 is returned, 0 otherwise. Due to a bug, one extra unused value is removed from the stack.
+// - i/p => [ x sig_1 sig_2 2 pub_1 pub_2 2 ]
+// - general i/p => [ x sig1 sig2 ... <number of signatures> pub1 pub2 <number of public keys> ]
+
+OP_CHECKMULTISIGVERIFY
+// - Same as OP_CHECKMULTISIG, but OP_VERIFY is executed afterward.
+
+OP_CHECKSIGADD
+// - Three values are popped from the stack. The integer n is incremented by one and returned to the stack if the signature is valid for the public key and transaction. The integer n is returned to the stack unchanged if the signature is the empty vector (OP_0). In any other case, the script is invalid. This opcode is only available in tapscript.
+// - i/p [ sig n pub ]
+// IMP : only available in tapscript

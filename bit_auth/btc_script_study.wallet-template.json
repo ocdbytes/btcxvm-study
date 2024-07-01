@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ide.bitauth.com/authentication-template-v0.schema.json",
+  "description": "",
+  "name": "BTC Script Study",
+  "entities": {
+    "owner": {
+      "description": "The individual who can spend from this wallet.",
+      "name": "Owner",
+      "scripts": [
+        "main",
+        "message"
+      ],
+      "variables": {
+        "owner_key": {
+          "description": "The private key that controls this wallet.",
+          "name": "Owner's Key",
+          "type": "Key"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "main": {
+      "name": "main",
+      "script": "<owner_key.data_signature.message>\n<owner_key.public_key>\nOP_CHECKSIG\n\n<0xeaf0989e226a7d6f76b22655e934e3f081c47b348f12ae48bfb9f065d00370b36bf27e32851edd14f8c2aaa0178161918ac34e2f42782cae6547423f36774a1d41>\n<0x03a524f43d6166ad3567f18b0a5c769c6ab4dc02149f4d5095ccf4e8ffa293e785>\nOP_CHECKSIG"
+    },
+    "message": {
+      "name": "message",
+      "script": "<':)'>"
+    }
+  },
+  "supported": [
+    "BCH_2023_05"
+  ],
+  "version": 0
+}

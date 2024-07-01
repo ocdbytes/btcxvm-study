@@ -21,7 +21,7 @@ OP_NEGATE
 // ...
 // STACK = [ 0x-1 0x02 ]
 
-OP_ABS	
+OP_ABS
 // - The input is made positive.
 // => OP_ABS
 // => STACK = [ 0x-1 ]

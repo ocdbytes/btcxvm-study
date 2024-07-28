@@ -2,8 +2,7 @@ use crate::opcodes::{add::add, new_num::new_num, sub::sub};
 
 use super::stack::Stack;
 
-pub fn execute_code(seq : Vec<String>) {
-
+pub fn execute_code(seq: Vec<String>) {
     let mut vm_state = Stack::new();
 
     for code in seq {
@@ -27,15 +26,15 @@ pub fn execute_code(seq : Vec<String>) {
                 new_num(&mut vm_state, code)
             }
         }
-
     }
 
-    println!("\n--------------------STACK (final) : {:?}", &vm_state.elements);
-    
+    println!(
+        "\n--------------------STACK (final) : {:?}",
+        &vm_state.elements
+    );
 }
 
 fn is_numeric_string(s: &String) -> bool {
-
     for c in s.chars() {
         if c.is_numeric() == false {
             return false;

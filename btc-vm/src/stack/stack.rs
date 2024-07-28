@@ -1,14 +1,17 @@
 // Stack implementation for the btc vm
 
-#[derive(Debug,Clone)]
+#[derive(Debug, Clone)]
 pub struct Stack {
     pub elements: Vec<String>,
-    pub length: u32
+    pub length: u32,
 }
 
 impl Stack {
     pub fn new() -> Stack {
-        Stack {elements: vec![], length: 0 }
+        Stack {
+            elements: vec![],
+            length: 0,
+        }
     }
 
     pub fn pop(&mut self) -> Option<String> {
@@ -18,7 +21,7 @@ impl Stack {
         self.elements.pop()
     }
 
-    pub fn push(&mut self, item : String) {
+    pub fn push(&mut self, item: String) {
         self.length += 1;
         self.elements.push(item)
     }
@@ -26,7 +29,6 @@ impl Stack {
     pub fn is_empty(&self) -> bool {
         self.elements.is_empty()
     }
-
 }
 
 #[cfg(test)]
@@ -65,5 +67,4 @@ mod tests {
         let stk = Stack::new();
         assert_eq!(stk.is_empty(), true);
     }
-
 }

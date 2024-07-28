@@ -1,7 +1,7 @@
 // Module imports for all the opcodes
 pub mod opcodes;
 // Module for input processor
-pub mod  processor;
+pub mod processor;
 // Module for execution of the code on the vm
 pub mod stack;
 
@@ -10,7 +10,6 @@ use std::env;
 use processor::input::parse_input;
 
 use stack::executor::execute_code;
-
 
 fn main() {
     println!("======================================================\nBTC VM Simulator\n======================================================");

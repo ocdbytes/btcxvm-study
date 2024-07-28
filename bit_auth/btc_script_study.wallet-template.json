@@ -11,10 +11,10 @@
         "message"
       ],
       "variables": {
-        "owner_key": {
-          "description": "The private key that controls this wallet.",
-          "name": "Owner's Key",
-          "type": "Key"
+        "owner_hdkey": {
+          "description": "",
+          "name": "Owner's HD Key",
+          "type": "HdKey"
         }
       }
     }
@@ -22,11 +22,11 @@
   "scripts": {
     "main": {
       "name": "main",
-      "script": "<owner_key.data_signature.message>\n<owner_key.public_key>\nOP_CHECKSIG\n\n<0xeaf0989e226a7d6f76b22655e934e3f081c47b348f12ae48bfb9f065d00370b36bf27e32851edd14f8c2aaa0178161918ac34e2f42782cae6547423f36774a1d41>\n<0x03a524f43d6166ad3567f18b0a5c769c6ab4dc02149f4d5095ccf4e8ffa293e785>\nOP_CHECKSIG"
+      "script": "// Signing a 'hello world' message.\n// <owner_hdkey.ecdsa_data_signature.message>\n\n// Signature of Message\n<owner_hdkey.schnorr_data_signature.message>\n// Message\n<message>\n// Public key of the wallet.\n<owner_hdkey.public_key>\n// Checking the signature\nOP_CHECKDATASIG\n\nOP_DROP\n\n// Signature of Message\n<owner_hdkey.schnorr_data_signature.message>\n// Public key of the wallet.\n<owner_hdkey.public_key>\n// Checking the signature\nOP_CHECKSIGVERIFY\n\n\n<0x3045022100aba3db643a5da7855d6694172cbe0e94334720da930d076b421869599d50d7a502203decd2fdff6a5303aacbad30dc2310690912283555e9f43efa9ea650f87457b1>\n<0x02c6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5>\nOP_CHECKSIG"
     },
     "message": {
       "name": "message",
-      "script": "<':)'>"
+      "script": "<0x123>"
     }
   },
   "supported": [

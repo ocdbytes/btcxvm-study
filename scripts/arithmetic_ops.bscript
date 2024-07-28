@@ -1,27 +1,27 @@
 // Arithmetics
 
-OP_1ADD
+OP_1ADD ✅
 // - 1 is added to the input
 // => OP_1ADD
 // => STACK = [ 0x02 0x01 ]
 // ...
 // STACK = [ 0x03 0x01 ]
 
-OP_1SUB
+OP_1SUB ✅
 // - 1 is subtracted from the input
 // => OP_1SUB
 // => STACK = [ 0x02 0x01 ]
 // ...
 // STACK = [ 0x01 0x01 ]
 
-OP_NEGATE
+OP_NEGATE ✅
 // - sign of input is flipped
 // => OP_NEGATE
 // => STACK = [ 0x01 0x02 ]
 // ...
 // STACK = [ 0x-1 0x02 ]
 
-OP_ABS
+OP_ABS ✅
 // - The input is made positive.
 // => OP_ABS
 // => STACK = [ 0x-1 ]
@@ -46,11 +46,11 @@ stack format :
 [  a  ]
 ****/
 
-OP_ADD
+OP_ADD ✅
 // - a is added to b.
 // i/p -> a b
 
-OP_SUB
+OP_SUB ✅
 // - b is subtracted from a
 // i/p -> a b
 

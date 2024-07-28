@@ -1,7 +1,7 @@
 // ========================================================
 // CONSTANTS
 
-OP_0
+OP_0 ✅
 OP_FALSE
 // Stack :
 // let a = bytes[] ---push--> STACK[]
@@ -52,12 +52,12 @@ OP_1NEGATE
 // STACK[ -1 ]
 
 OP_1
-OP_TRUE
+OP_TRUE ✅
 // Stack :
 // 1 ---push--> STACK[]
 // STACK[ 1 ]
 
-OP_2 // till OP_16
+OP_2 // till OP_16 ✅
 // Stack :
 // Pushes the number into the stack
 // OP_4

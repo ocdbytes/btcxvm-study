@@ -10,7 +10,7 @@ pub fn print_in_box(array: &mut Vec<String>) {
     for item in array {
         let padding = max_length - item.len();
         let left_padding = padding / 2;
-        let right_padding = padding - left_padding;
+        let _right_padding = padding - left_padding;
 
         println!(
             "|{padding:>width$}{item}{padding:>width$}|",

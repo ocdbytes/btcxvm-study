@@ -6,6 +6,8 @@ pub enum OpCodeErrors {
     MissingValue(String),
     #[error("Error converting the input into the range of -2^31 to 2^31 - 1 (i32)")]
     NumberNotInRange,
+    #[error("Verification failed")]
+    OpVerifyFailed
 }
 
 #[derive(Error, Debug)]

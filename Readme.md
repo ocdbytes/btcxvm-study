@@ -41,3 +41,14 @@
 ## BTC VM
 
 In Progress 👷🏻‍♂️...
+
+- [ ] add ops
+- [ ] sub ops
+- [ ] arithmetic ops
+- [ ] stack ops
+- [ ] time lock ops
+- [ ] crypto ops
+- [ ] script tests
+  - [ ] simple opcodes test
+  - [ ] stack opcodes test
+  - [ ] to be continued.....

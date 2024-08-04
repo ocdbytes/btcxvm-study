@@ -1,5 +1,5 @@
-use super::utils::string_to_i32;
 use crate::errors::OpCodeErrors;
+use crate::opcodes::utils::string_to_i32;
 use crate::stack::stack::Stack;
 
 pub fn add(vm_state: &mut Stack) -> Result<(), OpCodeErrors> {

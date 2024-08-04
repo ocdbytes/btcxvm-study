@@ -67,11 +67,11 @@ In Progress 👷🏻‍♂️...
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ```
 
-- [ ] arithmetic ops (in progress.... ⏳)
+- [x] arithmetic ops (done ✅)
 - [ ] stack ops (in progress.... ⏳)
 - [ ] time lock ops
 - [ ] crypto ops
 - [ ] script tests
-  - [ ] simple opcodes test
+  - [ ] simple opcodes test (in progress.... ⏳)
   - [ ] stack opcodes test
   - [ ] etc .....

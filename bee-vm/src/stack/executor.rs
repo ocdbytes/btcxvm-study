@@ -1,18 +1,27 @@
 use super::stack::Stack;
-use crate::opcodes::abs::abs;
-use crate::opcodes::add1::add_1;
-use crate::opcodes::negate::negate;
-use crate::opcodes::not::not;
-use crate::opcodes::op_false::op_false;
-use crate::opcodes::op_true::op_true;
-use crate::opcodes::sub1::sub_1;
+use crate::opcodes::arithmetic::abs::abs;
+use crate::opcodes::arithmetic::add::add;
+use crate::opcodes::arithmetic::add1::add_1;
+use crate::opcodes::arithmetic::bool_and::bool_and;
+use crate::opcodes::arithmetic::bool_or::bool_or;
+use crate::opcodes::arithmetic::greater_than::greater_than;
+use crate::opcodes::arithmetic::greater_than_or_equal::greater_than_or_equal;
+use crate::opcodes::arithmetic::less_than::less_than;
+use crate::opcodes::arithmetic::less_than_or_equal::less_than_or_equal;
+use crate::opcodes::arithmetic::max::max;
+use crate::opcodes::arithmetic::min::min;
+use crate::opcodes::arithmetic::negate::negate;
+use crate::opcodes::arithmetic::not::not;
+use crate::opcodes::arithmetic::num_equal::num_equal;
+use crate::opcodes::arithmetic::num_not_equal::num_not_equal;
+use crate::opcodes::arithmetic::op_false::op_false;
+use crate::opcodes::arithmetic::op_true::op_true;
+use crate::opcodes::arithmetic::sub::sub;
+use crate::opcodes::arithmetic::sub1::sub_1;
+use crate::opcodes::arithmetic::verify::verify;
+use crate::opcodes::arithmetic::within::within;
+use crate::opcodes::new_num::new_num;
 use crate::opcodes::zero_not_equal::zero_not_equal;
-use crate::opcodes::{add::add, new_num::new_num, sub::sub};
-use crate::opcodes::bool_and::bool_and;
-use crate::opcodes::bool_or::bool_or;
-use crate::opcodes::num_equal::num_equal;
-use crate::opcodes::num_not_equal::num_not_equal;
-use crate::opcodes::verify::verify;
 use crate::stack::executor_utils::{is_numeric_string, is_op_range};
 use crate::utils::print_in_box;
 
@@ -128,6 +137,48 @@ pub fn execute_code(seq: Vec<String>) -> color_eyre::Result<()> {
         if code == "OP_NUMEQUALVERIFY" {
             num_equal(&mut main_stack)?;
             verify(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_LESSTHAN
+        if code == "OP_LESSTHAN" {
+            less_than(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_GREATERTHAN
+        if code == "OP_GREATERTHAN" {
+            greater_than(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_LESSTHANOREQUAL
+        if code == "OP_LESSTHANOREQUAL" {
+            less_than_or_equal(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_GREATERTHANOREQUAL
+        if code == "OP_GREATERTHANOREQUAL" {
+            greater_than_or_equal(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_MIN
+        if code == "OP_MIN" {
+            min(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_MAX
+        if code == "OP_MAX" {
+            max(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_WITHIN
+        if code == "OP_WITHIN" {
+            within(&mut main_stack)?;
             ops_array.push(code.clone());
         }
     }

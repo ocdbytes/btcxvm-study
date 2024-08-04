@@ -1,17 +1,6 @@
-pub mod abs;
-pub mod add;
-pub mod add1;
-pub mod negate;
 pub mod new_num;
-pub mod not;
-pub mod op_false;
-pub mod op_true;
-pub mod sub;
-pub mod sub1;
 pub mod utils;
 pub mod zero_not_equal;
-pub mod bool_and;
-pub mod bool_or;
-pub mod num_equal;
-pub mod verify;
-pub mod num_not_equal;
+
+// Arithmetic Ops
+pub mod arithmetic;

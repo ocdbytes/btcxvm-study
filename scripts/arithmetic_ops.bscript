@@ -74,31 +74,31 @@ OP_NUMNOTEQUAL ✅
 // - Returns 1 if the numbers are not equal, 0 otherwise.
 // - i/p -> a b
 
-OP_LESSTHAN
+OP_LESSTHAN ✅
 // - Returns 1 if a is less than b, 0 otherwise.
 // - i/p -> a b
 
-OP_GREATERTHAN
+OP_GREATERTHAN ✅
 // - Returns 1 if a is greater than b, 0 otherwise.
 // - i/p -> a b
 
-OP_LESSTHANOREQUAL
+OP_LESSTHANOREQUAL ✅
 // - Returns 1 if a is less than or equal to b, 0 otherwise.
 // - i/p -> a b
 
-OP_GREATERTHANOREQUAL
+OP_GREATERTHANOREQUAL ✅
 // - Returns 1 if a is greater than or equal to b, 0 otherwise.
 // - i/p -> a b
 
-OP_MIN
+OP_MIN ✅
 // - Returns the smaller of a and b.
 // - i/p -> a b
 
-OP_MAX
+OP_MAX ✅
 // - Returns the larger of a and b.
 // - i/p -> a b
 
-OP_WITHIN
+OP_WITHIN ✅
 // - Returns 1 if x is within the specified range (left-inclusive), 0 otherwise.
 // - i/p -> x min max
 // => 0 5 4 OP_WITHIN

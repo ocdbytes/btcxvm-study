@@ -9,7 +9,7 @@ pub fn verify(vm_state: &mut Stack) -> Result<(), OpCodeErrors> {
     })?;
 
     if item != 1 {
-        return Err(OpCodeErrors::OpVerifyFailed)
+        return Err(OpCodeErrors::OpVerifyFailed);
     }
 
     Ok(())

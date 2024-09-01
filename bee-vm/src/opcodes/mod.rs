@@ -4,3 +4,4 @@ pub mod zero_not_equal;
 
 // Arithmetic Ops
 pub mod arithmetic;
+pub mod stack;

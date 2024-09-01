@@ -35,6 +35,10 @@ pub fn execute_code(seq: Vec<String>) -> color_eyre::Result<()> {
         println!("ALT STACK : {:?}", &alt_stack.elements);
         println!(">>>> Processing code : {:?}", code.clone());
 
+        // ============================================
+        // ARITHMETICS
+        // ============================================
+
         // OP_ADD
         if code == "OP_ADD" {
             add(&mut main_stack)?;
@@ -181,6 +185,10 @@ pub fn execute_code(seq: Vec<String>) -> color_eyre::Result<()> {
             within(&mut main_stack)?;
             ops_array.push(code.clone());
         }
+
+        // ============================================
+        // STACK OPS
+        // ============================================
     }
 
     println!("\n======================================================\nSTACK (final) :");

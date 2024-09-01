@@ -1,6 +1,6 @@
 // Stack
 
-OP_TOALTSTACK
+OP_TOALTSTACK ✅
 // - Puts the input onto the top of the alt stack. Removes it from the main stack.
 // => OP_TOALTSTACK
 // => STACK = [ 0x10 ]
@@ -9,7 +9,7 @@ OP_TOALTSTACK
 // STACK = []
 // ALT_STACK = [ 0x10 ]
 
-OP_FROMALTSTACK
+OP_FROMALTSTACK ✅
 // - Puts the input onto the top of the main stack. Removes it from the alt stack.
 // => OP_TOALTSTACK
 // => STACK = []
@@ -18,21 +18,21 @@ OP_FROMALTSTACK
 // STACK = [ 0x10 ]
 // ALT_STACK = []
 
-OP_IFDUP
+OP_IFDUP ✅
 // - If the top stack value is not 0, duplicate it.
 // => OP_IFDUP
 // => STACK = [ 0x10 ]
 // ...
 // STACK = [ 0x10 0x10 ]
 
-OP_DEPTH
+OP_DEPTH ✅
 // - Puts the number of stack items onto the stack.
 // => OP_DEPTH
 // => STACK = [ 0x10 0x20 0x30 ]
 // ...
 // STACK = [ 0x03 0x10 0x20 0x30 ]
 
-OP_DROP / [OP_2DROP]
+OP_DROP / [OP_2DROP] ✅
 // - Removes the top stack item.
 // - [Removes the top two stack items.]
 // => OP_DROP
@@ -40,7 +40,7 @@ OP_DROP / [OP_2DROP]
 // ...
 // STACK = [ 0x20 ]
 
-OP_DUP / [OP_2DUP] / [[OP_3DUP]]
+OP_DUP / [OP_2DUP] / [[OP_3DUP]] ✅
 // - Duplicates the top stack item.
 // - [Duplicates the top two stack items (in same order)]
 // - [[Duplicates the top three stack items (in same order)]]
@@ -49,14 +49,14 @@ OP_DUP / [OP_2DUP] / [[OP_3DUP]]
 // ...
 // STACK = [ 0x10 0x10 0x20 ]
 
-OP_NIP
+OP_NIP ✅
 // - Removes the second-to-top stack item.
 // => OP_NIP
 // => STACK = [ 0x20 0x10 0x30 ]
 // ...
 // STACK = [ 0x20 0x30 ]
 
-OP_OVER / [OP_2OVER]
+OP_OVER / [OP_2OVER] ✅
 // - Copies the second-to-top stack item to the top.
 // - [Copies the pair of items two spaces back in the stack to the front.]
 // => OP_OVER
@@ -64,7 +64,7 @@ OP_OVER / [OP_2OVER]
 // ...
 // STACK = [ 0x20 0x30 0x20 0x10 ]
 
-OP_PICK
+OP_PICK ✅
 // - The item n back in the stack is copied to the top.
 // => 1 2 3 4 2 OP_PICK
 // => STACK = []
@@ -76,7 +76,7 @@ OP_PICK
 // ...
 // STACK = [ 3 4 3 2 1 ]
 
-OP_ROLL
+OP_ROLL ✅
 // - The item n back in the stack is moved to the top.
 // => 1 2 3 4 2 OP_ROLL
 // => STACK = []

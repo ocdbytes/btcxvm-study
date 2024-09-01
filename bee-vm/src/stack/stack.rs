@@ -29,6 +29,10 @@ impl Stack {
     pub fn is_empty(&self) -> bool {
         self.elements.is_empty()
     }
+
+    pub fn read_ele_from_top(&self, number: i32) -> Option<&String> {
+        self.elements.get(number)
+    }
 }
 
 #[cfg(test)]

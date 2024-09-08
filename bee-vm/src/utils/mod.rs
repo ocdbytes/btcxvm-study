@@ -1,3 +1,4 @@
+/// Print the stack_ops in a formatted box
 pub fn print_in_box(array: &mut Vec<String>) {
     array.reverse();
     // Find the longest string to determine the width of the box

@@ -1,28 +1,42 @@
-use super::stack::Stack;
-use crate::opcodes::arithmetic::abs::abs;
-use crate::opcodes::arithmetic::add::add;
-use crate::opcodes::arithmetic::add1::add_1;
-use crate::opcodes::arithmetic::bool_and::bool_and;
-use crate::opcodes::arithmetic::bool_or::bool_or;
-use crate::opcodes::arithmetic::greater_than::greater_than;
-use crate::opcodes::arithmetic::greater_than_or_equal::greater_than_or_equal;
-use crate::opcodes::arithmetic::less_than::less_than;
-use crate::opcodes::arithmetic::less_than_or_equal::less_than_or_equal;
-use crate::opcodes::arithmetic::max::max;
-use crate::opcodes::arithmetic::min::min;
-use crate::opcodes::arithmetic::negate::negate;
-use crate::opcodes::arithmetic::not::not;
-use crate::opcodes::arithmetic::num_equal::num_equal;
-use crate::opcodes::arithmetic::num_not_equal::num_not_equal;
-use crate::opcodes::arithmetic::op_false::op_false;
-use crate::opcodes::arithmetic::op_true::op_true;
-use crate::opcodes::arithmetic::sub::sub;
-use crate::opcodes::arithmetic::sub1::sub_1;
-use crate::opcodes::arithmetic::verify::verify;
-use crate::opcodes::arithmetic::within::within;
+use crate::opcodes::arithmetic_ops::abs::abs;
+use crate::opcodes::arithmetic_ops::add::add;
+use crate::opcodes::arithmetic_ops::add1::add_1;
+use crate::opcodes::arithmetic_ops::bool_and::bool_and;
+use crate::opcodes::arithmetic_ops::bool_or::bool_or;
+use crate::opcodes::arithmetic_ops::greater_than::greater_than;
+use crate::opcodes::arithmetic_ops::greater_than_or_equal::greater_than_or_equal;
+use crate::opcodes::arithmetic_ops::less_than::less_than;
+use crate::opcodes::arithmetic_ops::less_than_or_equal::less_than_or_equal;
+use crate::opcodes::arithmetic_ops::max::max;
+use crate::opcodes::arithmetic_ops::min::min;
+use crate::opcodes::arithmetic_ops::negate::negate;
+use crate::opcodes::arithmetic_ops::not::not;
+use crate::opcodes::arithmetic_ops::num_equal::num_equal;
+use crate::opcodes::arithmetic_ops::num_not_equal::num_not_equal;
+use crate::opcodes::arithmetic_ops::op_false::op_false;
+use crate::opcodes::arithmetic_ops::op_true::op_true;
+use crate::opcodes::arithmetic_ops::sub::sub;
+use crate::opcodes::arithmetic_ops::sub1::sub_1;
+use crate::opcodes::arithmetic_ops::verify::verify;
+use crate::opcodes::arithmetic_ops::within::within;
 use crate::opcodes::new_num::new_num;
+use crate::opcodes::stack_ops::depth::depth;
+use crate::opcodes::stack_ops::drop::op_drop;
+use crate::opcodes::stack_ops::dup::dup;
+use crate::opcodes::stack_ops::from_alt_stack::from_alt_stack;
+use crate::opcodes::stack_ops::if_dup::if_dup;
+use crate::opcodes::stack_ops::nip::nip;
+use crate::opcodes::stack_ops::over::{over, over_2};
+use crate::opcodes::stack_ops::pick::pick;
+use crate::opcodes::stack_ops::roll::roll;
+use crate::opcodes::stack_ops::rot::{rot, rot_2};
+use crate::opcodes::stack_ops::size::size;
+use crate::opcodes::stack_ops::swap::{swap, swap_2};
+use crate::opcodes::stack_ops::to_alt_stack::to_alt_stack;
+use crate::opcodes::stack_ops::tuck::tuck;
 use crate::opcodes::zero_not_equal::zero_not_equal;
 use crate::stack::executor_utils::{is_numeric_string, is_op_range};
+use crate::stack::Stack;
 use crate::utils::print_in_box;
 
 pub fn execute_code(seq: Vec<String>) -> color_eyre::Result<()> {
@@ -71,9 +85,9 @@ pub fn execute_code(seq: Vec<String>) -> color_eyre::Result<()> {
                 new_num(&mut main_stack, code.clone())?;
                 ops_array.push(format!("OP_{}", code));
             } else {
-                // for adding a number in the stack with range in i32
+                // for adding a number in the stack_ops with range in i32
                 new_num(&mut main_stack, code.clone())?;
-                ops_array.push(format!("{}", code));
+                ops_array.push(code.to_string());
             }
         }
 
@@ -189,6 +203,132 @@ pub fn execute_code(seq: Vec<String>) -> color_eyre::Result<()> {
         // ============================================
         // STACK OPS
         // ============================================
+
+        // OP_DEPTH
+        if code == "OP_DEPTH" {
+            depth(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_DROP
+        if code == "OP_DROP" {
+            op_drop(&mut main_stack, 1)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_2DROP
+        if code == "OP_2DROP" {
+            op_drop(&mut main_stack, 2)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_DUP
+        if code == "OP_DUP" {
+            dup(&mut main_stack, 1)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_2DUP
+        if code == "OP_2DUP" {
+            dup(&mut main_stack, 2)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_3DUP
+        if code == "OP_3DUP" {
+            dup(&mut main_stack, 3)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_IFDUP
+        if code == "OP_IFDUP" {
+            if_dup(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_NIP
+        if code == "OP_NIP" {
+            nip(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_NIP
+        if code == "OP_NIP" {
+            nip(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_OVER
+        if code == "OP_OVER" {
+            over(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_2OVER
+        if code == "OP_2OVER" {
+            over_2(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_PICK
+        if code == "OP_PICK" {
+            pick(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_TOALTSTACK
+        if code == "OP_TOALTSTACK" {
+            to_alt_stack(&mut main_stack, &mut alt_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_FROMALTSTACK
+        if code == "OP_FROMALTSTACK" {
+            from_alt_stack(&mut main_stack, &mut alt_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_ROT
+        if code == "OP_ROT" {
+            rot(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_2ROT
+        if code == "OP_2ROT" {
+            rot_2(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_SWAP
+        if code == "OP_SWAP" {
+            swap(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_2SWAP
+        if code == "OP_2SWAP" {
+            swap_2(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_TUCK
+        if code == "OP_TUCK" {
+            tuck(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_SIZE
+        if code == "OP_SIZE" {
+            size(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
+
+        // OP_ROLL
+        if code == "OP_ROLL" {
+            roll(&mut main_stack)?;
+            ops_array.push(code.clone());
+        }
     }
 
     println!("\n======================================================\nSTACK (final) :");

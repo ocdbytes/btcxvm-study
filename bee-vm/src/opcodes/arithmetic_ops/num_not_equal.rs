@@ -40,9 +40,9 @@ pub fn num_not_equal(vm_state: &mut Stack) -> Result<(), OpCodeErrors> {
 
 #[cfg(test)]
 mod test_opcode_num_not_equal {
+    use crate::opcodes::arithmetic_ops::num_not_equal::num_not_equal;
     use crate::stack::Stack;
     use rstest::rstest;
-    use crate::opcodes::arithmetic_ops::num_not_equal::num_not_equal;
 
     #[rstest]
     #[case(vec!["0".to_string(), "0".to_string()], vec!["0".to_string()])]

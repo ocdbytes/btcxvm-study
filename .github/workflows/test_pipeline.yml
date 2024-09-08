@@ -10,8 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # selecting a toolchain either by action or manual `rustup` calls should happen
-      # before the plugin, as the cache uses the current rustc version as its cache key
       - run: rustup show
 
       - name: Install Rust toolchain
@@ -31,4 +29,6 @@ jobs:
         uses: taiki-e/install-action@nextest
 
       - name: Run llvm-cov tests
-        run: cargo llvm-cov nextest --release --lcov --output-path lcov.info --test-threads=1
+        run: |
+          cd bee-vm/
+          cargo llvm-cov nextest --release --lcov --output-path lcov.info --test-threads=1

@@ -1,5 +1,7 @@
 pub mod executor;
-mod executor_utils;
+
+#[cfg(test)]
+mod flow_tests;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Stack {
@@ -24,7 +26,21 @@ impl Stack {
 
     pub fn push(&mut self, item: String) {
         self.length += 1;
-        self.elements.push(item)
+        self.elements.push(item);
+    }
+
+    pub fn push_to_top(&mut self, item: String) {
+        self.length += 1;
+        self.elements.insert(0, item);
+    }
+
+    pub fn pop_from_top(&mut self) -> Option<String> {
+        if self.length >= 1 {
+            self.length -= 1;
+        } else {
+            return None;
+        }
+        Some(self.elements.remove(0))
     }
 
     pub fn is_empty(&self) -> bool {
@@ -39,7 +55,7 @@ impl Stack {
     pub fn stack_from(vec: Vec<String>) -> Stack {
         let mut stack = Stack::new();
         for i in vec {
-            stack.push(i);
+            stack.push_to_top(i);
         }
         stack
     }

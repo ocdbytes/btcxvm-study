@@ -7,12 +7,12 @@ OP_FALSE
 // let a = bytes[] ---push--> STACK[]
 // STACK[ a ]
 
-NO_WORD // but opcode given a value
+NO_WORD // but opcode given a value ✅
 // Stack :
 // 0x05 ---push--> STACK[]
 // STACK[ 0x05 ]
 
-OP_PUSHDATA1
+OP_PUSHDATA1 [⚠️ deprecated]
 // Eg ==>
 // OP_PUSHDATA1
 // Input :
@@ -24,7 +24,7 @@ OP_PUSHDATA1
 // 10_bytes(00112233445566778899) ---push--> STACK[]
 // STACK[ 00112233445566778899 ]
 
-OP_PUSHDATA2
+OP_PUSHDATA2 [⚠️ deprecated]
 // Eg ==>
 // OP_PUSHDATA2
 // Input :
@@ -35,7 +35,7 @@ OP_PUSHDATA2
 // 10_bytes(00112233445566778899) ---push--> STACK[]
 // STACK[ 00112233445566778899 ]
 
-OP_PUSHDATA4
+OP_PUSHDATA4 [⚠️ deprecated]
 // Eg ==>
 // OP_PUSHDATA4
 // Input :
@@ -63,12 +63,12 @@ OP_2 // till OP_16 ✅
 // OP_4
 // STACK[ 4 ]
 
-OP_RESERVED
+OP_RESERVED ✅
 // Terminates the program immediately
 
 
 // ========================================================
-// FLOW CONTROL
+// FLOW CONTROL ✅
 
 // <condition> OP_IF
 //    <script if condition is true>
@@ -110,16 +110,17 @@ OP_0 OP_NOTIF OP_2 OP_ENDIF
 OP_1 OP_IF OP_2 OP_ELSE OP_3 OP_ENDIF
 
 // ========================================================
-OP_VERIFY
+OP_VERIFY ✅
 // - Marks transaction as invalid if top stack value is not true. The top stack value is removed.
 
 // ========================================================
-OP_RETURN
+OP_RETURN ✅
 // - OP_RETURN can also be used to create "False Return" outputs with a scriptPubKey consisting of OP_FALSE OP_RETURN followed by data. 
 // - Such outputs are provably unspendable and should be given a value of zero Satoshis. These outputs can be pruned from storage in the UTXO set, reducing its size. 
 // - Currently the BitcoinSV network supports multiple FALSE RETURN outputs in a given transaction with each one capable of holding up to 100kB of data. After the Genesis upgrade in 2020 miners will be free to mine transactions containing FALSE RETURN outputs of any size.
 
-OP_EQUAL
+// ========================================================
+OP_EQUAL ✅
 // - Returns 1 if the inputs are exactly equal, 0 otherwise.
 // => OP_EQUAL
 // => STACK = [ 1 1 ]
@@ -128,5 +129,6 @@ OP_EQUAL
 // STACK = [ 1 ]
 // STACK = [ 0 ] !! FAILED
 
-OP_EQUALVERIFY
+// ========================================================
+OP_EQUALVERIFY ✅
 // - same as OP_EQUAL but (OP_EQUAL + OP_VERIFY)

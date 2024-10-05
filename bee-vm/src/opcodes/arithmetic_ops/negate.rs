@@ -9,13 +9,13 @@ use crate::stack::Stack;
 /// [ 0x01 0x02 ]
 /// => [ 0x-1 0x02 ]
 pub fn negate(vm_state: &mut Stack) -> Result<(), OpCodeErrors> {
-    let value = vm_state.pop();
+    let value = vm_state.pop_from_top();
     let item_1 = match value {
         Some(val) => string_to_i32(&val)?,
         None => return Err(OpCodeErrors::MissingValue("negate: value 1".to_string())),
     };
 
-    vm_state.push((0 - item_1).to_string());
+    vm_state.push_to_top((0 - item_1).to_string());
 
     Ok(())
 }

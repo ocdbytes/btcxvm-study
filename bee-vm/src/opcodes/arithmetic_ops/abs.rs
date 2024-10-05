@@ -9,12 +9,12 @@ use crate::stack::Stack;
 /// [ OP_ABS 0x-1 ]
 /// => [ 0x01 ]
 pub fn abs(vm_state: &mut Stack) -> Result<(), OpCodeErrors> {
-    let item_1 = string_to_i32(match &vm_state.pop() {
+    let item_1 = string_to_i32(match &vm_state.pop_from_top() {
         Some(val) => val,
         None => return Err(OpCodeErrors::MissingValue("abs : value 1".to_string())),
     })?;
 
-    vm_state.push(item_1.abs().to_string());
+    vm_state.push_to_top(item_1.abs().to_string());
 
     Ok(())
 }

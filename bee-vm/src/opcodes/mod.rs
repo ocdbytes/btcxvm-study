@@ -3,8 +3,16 @@
 // ==================================================
 
 pub mod new_num;
+pub mod op_equal;
+pub mod op_reserved;
+pub mod op_return;
 pub mod utils;
 pub mod zero_not_equal;
+
+// ==================================================
+// Control Flow (IF, ELSE, IF ELSE)
+// ==================================================
+pub mod control_flow;
 
 // ==================================================
 // Arithmetic Ops

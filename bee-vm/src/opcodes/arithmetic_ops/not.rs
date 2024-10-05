@@ -8,16 +8,16 @@ use crate::stack::Stack;
 /// [ 0x00 ]
 /// => [ 0x01 ]
 pub fn not(vm_state: &mut Stack) -> Result<(), OpCodeErrors> {
-    let value = vm_state.pop();
+    let value = vm_state.pop_from_top();
 
     match value {
         Some(val) => {
             if val == "1" {
-                vm_state.push("0".to_string());
+                vm_state.push_to_top("0".to_string());
             } else if val == "0" {
-                vm_state.push("1".to_string());
+                vm_state.push_to_top("1".to_string());
             } else {
-                vm_state.push("0".to_string());
+                vm_state.push_to_top("0".to_string());
             }
         }
         None => return Err(OpCodeErrors::MissingValue("not : value 1".to_string())),

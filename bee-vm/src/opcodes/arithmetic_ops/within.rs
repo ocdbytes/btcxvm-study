@@ -17,23 +17,23 @@ use crate::stack::Stack;
 ///
 /// => 4 is within range [0,5)
 pub fn within(vm_state: &mut Stack) -> Result<(), OpCodeErrors> {
-    let item_1 = string_to_i32(match &vm_state.pop() {
+    let item_1 = string_to_i32(match &vm_state.pop_from_top() {
         Some(val) => val,
         None => return Err(OpCodeErrors::MissingValue("within : value 1".to_string())),
     })?;
-    let item_2 = string_to_i32(match &vm_state.pop() {
+    let item_2 = string_to_i32(match &vm_state.pop_from_top() {
         Some(val) => val,
         None => return Err(OpCodeErrors::MissingValue("within : value 2".to_string())),
     })?;
-    let item_3 = string_to_i32(match &vm_state.pop() {
+    let item_3 = string_to_i32(match &vm_state.pop_from_top() {
         Some(val) => val,
         None => return Err(OpCodeErrors::MissingValue("within : value 3".to_string())),
     })?;
 
     if item_2 <= item_3 && item_3 < item_1 {
-        vm_state.push("1".to_string());
+        vm_state.push_to_top("1".to_string());
     } else {
-        vm_state.push("0".to_string());
+        vm_state.push_to_top("0".to_string());
     }
 
     Ok(())

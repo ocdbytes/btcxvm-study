@@ -4,7 +4,7 @@ use crate::stack::Stack;
 
 /// Marks transaction as invalid if top stack_ops value is not true. The top stack_ops value is removed.
 pub fn verify(vm_state: &mut Stack) -> Result<(), OpCodeErrors> {
-    let item = string_to_i32(match &vm_state.pop() {
+    let item = string_to_i32(match &vm_state.pop_from_top() {
         Some(val) => val,
         None => return Err(OpCodeErrors::MissingValue("verify : value 1".to_string())),
     })?;

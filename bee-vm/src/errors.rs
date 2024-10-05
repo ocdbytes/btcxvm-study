@@ -12,6 +12,18 @@ pub enum OpCodeErrors {
     OpVerifyFailed,
     #[error("Error : {0}")]
     NIsLargerThanOrEqualToStackSize(String),
+    #[error("Error : {0}")]
+    InvalidHex(String),
+    #[error("Error : {0}")]
+    UnbalancedControlFlow(String),
+    #[error("OP_RETURN called")]
+    OpReturn,
+    #[error("OP_RESERVED called")]
+    OpReserved,
+    #[error("Stack Empty")]
+    StackEmpty,
+    #[error("Unknown Opcode")]
+    UnknownOpcode,
 }
 
 #[derive(Error, Debug)]

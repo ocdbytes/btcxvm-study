@@ -40,12 +40,15 @@ const BANNER: &str = "
 ";
 
 fn main() -> color_eyre::Result<()> {
-    println!("{}", BANNER.yellow());
-    println!("A BTC VM simulator >>>>>>\n======================================================\n");
+    env_logger::init();
+    log::info!("{}", BANNER.yellow());
+    log::info!("BTC VM");
 
     let args: Vec<String> = env::args().collect();
 
     let res = parse_input(args[1].clone())?;
 
-    execute_code(res.clone())
+    execute_code(res.clone()).expect("Error in executing the instructions");
+
+    Ok(())
 }

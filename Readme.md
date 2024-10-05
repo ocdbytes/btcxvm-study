@@ -47,9 +47,12 @@ In Progress 👷🏻‍♂️...
 
 - [x] arithmetic ops (done ✅)
 - [x] stack ops (done ✅)
+- [x] flow control (done ✅)
+- [x] standard opcodes (done ✅)
 - [ ] time lock ops
 - [ ] crypto ops
 - [ ] script tests
-  - [ ] arithmetic opcodes test (done ✅)
-  - [ ] stack opcodes test (in progress....⏳)
+  - [x] arithmetic opcodes test (done ✅)
+  - [x] stack opcodes test (done ✅)
+  - [x] flow control test (done ✅)
   - [ ] etc .....

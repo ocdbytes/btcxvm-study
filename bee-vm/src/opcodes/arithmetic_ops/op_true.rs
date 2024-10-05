@@ -4,7 +4,7 @@ use crate::stack::Stack;
 ///
 /// Pushes 1 on top of the stack_ops
 pub fn op_true(vm_state: &mut Stack) {
-    vm_state.push("1".to_string());
+    vm_state.push_to_top("1".to_string());
 }
 
 #[cfg(test)]

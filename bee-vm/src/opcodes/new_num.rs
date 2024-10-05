@@ -8,14 +8,17 @@ pub fn new_num(vm_state: &mut Stack, input: String) -> Result<(), OpCodeErrors> 
 
     match input_type {
         StringType::STRING(val) => {
-            vm_state.push(val);
+            vm_state.push_to_top(val);
+            return Ok(());
         }
         StringType::HEX(val) => {
-            vm_state.push(val);
+            vm_state.push_to_top(val);
+            return Ok(());
         }
         StringType::DECIMAL(val) => {
             if check_if_in_range(&input)? {
-                vm_state.push(val.to_string());
+                vm_state.push_to_top(val.to_string());
+                return Ok(());
             }
         }
     }

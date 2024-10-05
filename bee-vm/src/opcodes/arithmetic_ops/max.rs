@@ -13,16 +13,16 @@ use std::cmp;
 ///
 /// Returns the largest of a and b.
 pub fn max(vm_state: &mut Stack) -> Result<(), OpCodeErrors> {
-    let item_1 = string_to_i32(match &vm_state.pop() {
+    let item_1 = string_to_i32(match &vm_state.pop_from_top() {
         Some(val) => val,
         None => return Err(OpCodeErrors::MissingValue("max : value 1".to_string())),
     })?;
-    let item_2 = string_to_i32(match &vm_state.pop() {
+    let item_2 = string_to_i32(match &vm_state.pop_from_top() {
         Some(val) => val,
         None => return Err(OpCodeErrors::MissingValue("max : value 2".to_string())),
     })?;
 
-    vm_state.push(cmp::max(item_1, item_2).to_string());
+    vm_state.push_to_top(cmp::max(item_1, item_2).to_string());
 
     Ok(())
 }

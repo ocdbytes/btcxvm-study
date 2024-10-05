@@ -12,7 +12,7 @@ use crate::stack::Stack;
 ///
 /// Returns 1 if the numbers are equal, 0 otherwise.
 pub fn num_equal(vm_state: &mut Stack) -> Result<(), OpCodeErrors> {
-    let item_1 = string_to_i32(match &vm_state.pop() {
+    let item_1 = string_to_i32(match &vm_state.pop_from_top() {
         Some(val) => val,
         None => {
             return Err(OpCodeErrors::MissingValue(
@@ -30,9 +30,9 @@ pub fn num_equal(vm_state: &mut Stack) -> Result<(), OpCodeErrors> {
     })?;
 
     if item_1 == item_2 {
-        vm_state.push("1".to_string());
+        vm_state.push_to_top("1".to_string());
     } else {
-        vm_state.push("0".to_string());
+        vm_state.push_to_top("0".to_string());
     }
 
     Ok(())

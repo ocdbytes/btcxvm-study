@@ -4,7 +4,7 @@ use crate::stack::Stack;
 ///
 /// Pushes 0 on top of the stack_ops
 pub fn op_false(vm_state: &mut Stack) {
-    vm_state.push("0".to_string());
+    vm_state.push_to_top("0".to_string());
 }
 
 #[cfg(test)]

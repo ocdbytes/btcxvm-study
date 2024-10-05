@@ -9,11 +9,11 @@ use crate::stack::Stack;
 /// [ OP_1ADD 0x02 0x01 ]
 /// => [ 0x03 0x01 ]
 pub fn add_1(vm_state: &mut Stack) -> Result<(), OpCodeErrors> {
-    let item_1 = string_to_i32(match &vm_state.pop() {
+    let item_1 = string_to_i32(match &vm_state.pop_from_top() {
         Some(val) => val,
         None => return Err(OpCodeErrors::MissingValue("add_1 : value 1".to_string())),
     })?;
-    vm_state.push((item_1 + 1).to_string());
+    vm_state.push_to_top((item_1 + 1).to_string());
 
     Ok(())
 }

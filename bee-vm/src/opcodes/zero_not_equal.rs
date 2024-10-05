@@ -4,7 +4,7 @@ use crate::stack::Stack;
 
 /// Returns 0 if the input is 0. 1 otherwise.
 pub fn zero_not_equal(vm_state: &mut Stack) -> Result<(), OpCodeErrors> {
-    let item = string_to_i32(match &vm_state.pop() {
+    let item = string_to_i32(match &vm_state.pop_from_top() {
         Some(val) => val,
         None => {
             return Err(OpCodeErrors::MissingValue(
@@ -14,9 +14,9 @@ pub fn zero_not_equal(vm_state: &mut Stack) -> Result<(), OpCodeErrors> {
     })?;
 
     if item == 0 {
-        vm_state.push("0".to_string());
+        vm_state.push_to_top("0".to_string());
     } else {
-        vm_state.push("1".to_string());
+        vm_state.push_to_top("1".to_string());
     }
 
     Ok(())

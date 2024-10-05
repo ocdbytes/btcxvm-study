@@ -10,7 +10,6 @@ pub fn parse_input(input_codes: String) -> Result<Vec<String>, InputParsingError
     let mut res: Vec<String> = vec![];
 
     for code in &input_codes_vector {
-        // println!("Code : {:?}", code);
         res.push(code.to_string());
     }
 

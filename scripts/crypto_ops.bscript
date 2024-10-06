@@ -20,17 +20,17 @@ OP_HASH256
 // - The input is hashed two times with SHA-256.
 // - i/p => top stack element
 
-OP_CODESEPARATOR
+OP_CODESEPARATOR ✅
 // - All of the signature checking words will only match signatures to the data after the most recently-executed OP_CODESEPARATOR.
 // explanation :
 // https://xiaohuiliu.medium.com/op-codeseparator-97dc039a8ec8
 // https://wiki.bitcoinsv.io/index.php/OP_CODESEPARATOR
 
-OP_CHECKSIG
+OP_CHECKSIG ✅
 // - The entire transaction's outputs, inputs, and script (from the most recently-executed OP_CODESEPARATOR to the end) are hashed. The signature used by OP_CHECKSIG must be a valid signature for this hash and public key. If it is, 1 is returned, 0 otherwise.
 // - i/p => [ pubkey sig ]
 
-OP_CHECKSIGVERIFY
+OP_CHECKSIGVERIFY ✅
 // - Same as OP_CHECKSIG, but OP_VERIFY is executed afterward.
 // - i/p => [ pubkey sig ]
 

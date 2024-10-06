@@ -21,6 +21,7 @@ use crate::opcodes::arithmetic_ops::sub1::sub_1;
 use crate::opcodes::arithmetic_ops::verify::verify;
 use crate::opcodes::arithmetic_ops::within::within;
 use crate::opcodes::control_flow::ControlFlow;
+use crate::opcodes::crypto_ops::check_sig::op_checksig;
 use crate::opcodes::new_num::new_num;
 use crate::opcodes::op_equal::op_equal;
 use crate::opcodes::op_reserved::op_reserved;
@@ -42,14 +43,16 @@ use crate::opcodes::stack_ops::tuck::tuck;
 use crate::opcodes::zero_not_equal::zero_not_equal;
 use crate::stack::Stack;
 use crate::utils::print_in_box;
+use secp256k1::{All, Secp256k1};
 
-pub fn execute_code(seq: Vec<String>) -> color_eyre::Result<(Stack, Stack)> {
+pub fn execute_code(seq: Vec<String>, secp: Secp256k1<All>) -> color_eyre::Result<(Stack, Stack)> {
     let mut main_stack = Stack::new();
     let mut alt_stack = Stack::new();
     let mut ops_array: Vec<String> = vec![];
     let mut control_flow = ControlFlow::new();
+    let mut last_code_separator_index = 0;
 
-    for code in seq {
+    for (index, code) in seq.iter().enumerate() {
         log::debug!("Processing code : {:?}", code.clone());
 
         if control_flow.should_execute() {
@@ -114,6 +117,33 @@ pub fn execute_code(seq: Vec<String>) -> color_eyre::Result<(Stack, Stack)> {
                 "OP_ENDIF" => control_flow.op_endif()?,
 
                 // ============================================
+                // CRYPTO OPS
+                // ============================================
+                "OP_CHECKSIG" => {
+                    if seq[last_code_separator_index..].contains(&"OP_CODESEPARATOR".to_string()) {
+                        op_checksig(
+                            &mut main_stack,
+                            &seq[last_code_separator_index + 1..],
+                            &secp,
+                        )?
+                    } else {
+                        op_checksig(&mut main_stack, &seq, &secp)?
+                    }
+                }
+                "OP_CHECKSIGVERIFY" => {
+                    if seq[last_code_separator_index..].contains(&"OP_CODESEPARATOR".to_string()) {
+                        op_checksig(
+                            &mut main_stack,
+                            &seq[last_code_separator_index + 1..],
+                            &secp,
+                        )?
+                    } else {
+                        op_checksig(&mut main_stack, &seq, &secp)?
+                    }
+                    verify(&mut main_stack)?
+                }
+
+                // ============================================
                 // OTHER OPS
                 // ============================================
                 "OP_TRUE" => op_true(&mut main_stack),
@@ -126,6 +156,9 @@ pub fn execute_code(seq: Vec<String>) -> color_eyre::Result<(Stack, Stack)> {
                     verify(&mut main_stack)?
                 }
                 "OP_RESERVED" => op_reserved()?,
+                "OP_CODESEPARATOR" => {
+                    last_code_separator_index = index;
+                }
 
                 _ => {
                     if code.starts_with("OP_") {

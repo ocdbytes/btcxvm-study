@@ -14,6 +14,7 @@ use processor::input::parse_input;
 use stack::executor::execute_code;
 
 use colored::Colorize;
+use secp256k1::Secp256k1;
 
 const BANNER: &str = "
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -47,8 +48,9 @@ fn main() -> color_eyre::Result<()> {
     let args: Vec<String> = env::args().collect();
 
     let res = parse_input(args[1].clone())?;
+    let secp = Secp256k1::new();
 
-    execute_code(res.clone()).expect("Error in executing the instructions");
+    execute_code(res.clone(), secp).expect("Error in executing the instructions");
 
     Ok(())
 }

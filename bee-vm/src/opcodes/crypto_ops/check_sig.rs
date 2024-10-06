@@ -61,7 +61,7 @@ fn get_first_occurrence_of_checksig(script: &[String]) -> usize {
 }
 
 #[cfg(test)]
-mod tests {
+mod check_sigs_test {
     use crate::stack::executor::execute_code;
     use rstest::rstest;
     use secp256k1::{All, Message, Secp256k1, SecretKey};

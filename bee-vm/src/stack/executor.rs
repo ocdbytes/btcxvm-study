@@ -22,6 +22,10 @@ use crate::opcodes::arithmetic_ops::verify::verify;
 use crate::opcodes::arithmetic_ops::within::within;
 use crate::opcodes::control_flow::ControlFlow;
 use crate::opcodes::crypto_ops::check_sig::op_checksig;
+use crate::opcodes::crypto_ops::op_check_multi_sig::op_checkmultisig;
+use crate::opcodes::crypto_ops::ripe_md_160::{hash_160, ripe_md_160};
+use crate::opcodes::crypto_ops::sha_1::sha_1;
+use crate::opcodes::crypto_ops::sha_256::{hash_256, sha_256};
 use crate::opcodes::new_num::new_num;
 use crate::opcodes::op_equal::op_equal;
 use crate::opcodes::op_reserved::op_reserved;
@@ -139,6 +143,34 @@ pub fn execute_code(seq: Vec<String>, secp: Secp256k1<All>) -> color_eyre::Resul
                         )?
                     } else {
                         op_checksig(&mut main_stack, &seq, &secp)?
+                    }
+                    verify(&mut main_stack)?
+                }
+                "OP_RIPEMD160" => ripe_md_160(&mut main_stack)?,
+                "OP_SHA1" => sha_1(&mut main_stack)?,
+                "OP_SHA256" => sha_256(&mut main_stack)?,
+                "OP_HASH160" => hash_160(&mut main_stack)?,
+                "OP_HASH256" => hash_256(&mut main_stack)?,
+                "OP_CHECKMULTISIG" => {
+                    if seq[last_code_separator_index..].contains(&"OP_CODESEPARATOR".to_string()) {
+                        op_checkmultisig(
+                            &mut main_stack,
+                            &seq[last_code_separator_index + 1..],
+                            &secp,
+                        )?
+                    } else {
+                        op_checkmultisig(&mut main_stack, &seq, &secp)?
+                    }
+                }
+                "OP_CHECKMULTISIGVERIFY" => {
+                    if seq[last_code_separator_index..].contains(&"OP_CODESEPARATOR".to_string()) {
+                        op_checkmultisig(
+                            &mut main_stack,
+                            &seq[last_code_separator_index + 1..],
+                            &secp,
+                        )?
+                    } else {
+                        op_checkmultisig(&mut main_stack, &seq, &secp)?
                     }
                     verify(&mut main_stack)?
                 }

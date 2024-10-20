@@ -50,9 +50,10 @@ In Progress 👷🏻‍♂️...
 - [x] flow control (done ✅)
 - [x] standard opcodes (done ✅)
 - [ ] time lock ops
-- [ ] crypto ops
+- [x] crypto ops (done ✅)
 - [ ] script tests
   - [x] arithmetic opcodes test (done ✅)
   - [x] stack opcodes test (done ✅)
   - [x] flow control test (done ✅)
+  - [x] check sig / check multi sig / OP_CODESEPARATOR tests (done ✅)
   - [ ] etc .....

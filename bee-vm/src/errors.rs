@@ -16,6 +16,8 @@ pub enum OpCodeErrors {
     InvalidHex(String),
     #[error("Error : {0}")]
     UnbalancedControlFlow(String),
+    #[error("Error : {0}")]
+    InvalidValue(String),
     #[error("OP_RETURN called")]
     OpReturn,
     #[error("OP_RESERVED called")]

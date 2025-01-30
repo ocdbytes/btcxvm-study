@@ -47,18 +47,30 @@ use crate::opcodes::stack_ops::tuck::tuck;
 use crate::opcodes::zero_not_equal::zero_not_equal;
 use crate::stack::Stack;
 use crate::utils::print_in_box;
+use color_eyre::Result;
 use secp256k1::{All, Secp256k1};
 
-pub fn execute_code(seq: Vec<String>, secp: Secp256k1<All>) -> color_eyre::Result<(Stack, Stack)> {
+/// Executes a sequence of Bitcoin script operations, maintaining both a main stack and an alternative stack.
+/// Handles control flow, cryptographic operations, and basic stack manipulation according to the Bitcoin protocol.
+///
+/// The function processes script operations sequentially while respecting conditional execution (IF/ELSE/ENDIF)
+/// and maintaining proper state for signature verification through OP_CODESEPARATOR.
+///
+/// Returns both the main stack and alternative stack after execution completes.
+pub fn execute_code(seq: Vec<String>, secp: Secp256k1<All>) -> Result<(Stack, Stack)> {
     let mut main_stack = Stack::new();
     let mut alt_stack = Stack::new();
     let mut ops_array: Vec<String> = vec![];
     let mut control_flow = ControlFlow::new();
+
+    // Tracks the position of the most recently executed OP_CODESEPARATOR
+    // This affects which portion of the script is included in signature verification
     let mut last_code_separator_index = 0;
 
     for (index, code) in seq.iter().enumerate() {
         log::debug!("Processing code : {:?}", code.clone());
 
+        // Only execute operations if we're not in a skipped branch of an IF/ELSE block
         if control_flow.should_execute() {
             match code.as_str() {
                 // ============================================
@@ -189,10 +201,14 @@ pub fn execute_code(seq: Vec<String>, secp: Secp256k1<All>) -> color_eyre::Resul
                 }
                 "OP_RESERVED" => op_reserved()?,
                 "OP_CODESEPARATOR" => {
+                    // When we encounter a code separator, update the index to the current position
+                    // This means subsequent signature verifications will only consider script
+                    // operations that come after this point
                     last_code_separator_index = index;
                 }
 
                 _ => {
+                    // Handle non-opcode values (typically numbers or public keys)
                     if code.starts_with("OP_") {
                         Err(OpCodeErrors::UnknownOpcode)?
                     }
@@ -201,7 +217,8 @@ pub fn execute_code(seq: Vec<String>, secp: Secp256k1<All>) -> color_eyre::Resul
                 }
             }
         } else if code == "OP_IF" || code == "OP_ELSE" || code == "OP_ENDIF" {
-            // Always process these opcodes to maintain proper nesting
+            // Always process control flow operations, even in skipped branches
+            // This maintains proper nesting of conditional blocks
             match code.as_str() {
                 "OP_IF" => control_flow.op_if(&mut main_stack)?,
                 "OP_ELSE" => control_flow.op_else()?,
@@ -210,12 +227,14 @@ pub fn execute_code(seq: Vec<String>, secp: Secp256k1<All>) -> color_eyre::Resul
             }
         }
 
+        // Keep track of all operations for debugging and analysis
         ops_array.push(code.clone());
 
         log::debug!("STACK : {:?}", &main_stack.elements);
         log::debug!("ALT STACK : {:?}", &alt_stack.elements);
     }
 
+    // Print final state for debugging
     println!("\n======================================================\nSTACK (final) :");
     print_in_box(&mut main_stack.elements);
     println!("\nALT STACK (final) :",);

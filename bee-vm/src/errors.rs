@@ -26,6 +26,12 @@ pub enum OpCodeErrors {
     StackEmpty,
     #[error("Unknown Opcode")]
     UnknownOpcode,
+    #[error("Invalid Public Key")]
+    InvalidPublicKey,
+    #[error("Invalid Signature")]
+    InvalidSignature,
+    #[error("Error creating message")]
+    MessageCreationError,
 }
 
 #[derive(Error, Debug)]

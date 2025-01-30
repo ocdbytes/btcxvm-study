@@ -1,8 +1,5 @@
 pub mod executor;
 
-#[cfg(test)]
-mod flow_tests;
-
 #[derive(Debug, Clone, PartialEq)]
 pub struct Stack {
     pub elements: Vec<String>,

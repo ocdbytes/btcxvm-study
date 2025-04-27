@@ -1,6 +1,10 @@
 use clap::{Arg, Command};
-use secp256k1::rand::rngs::OsRng;
-use secp256k1::{Message, Secp256k1, SecretKey};
+use k256::ecdsa::signature::Signer;
+use k256::ecdsa::signature::Verifier;
+use k256::ecdsa::Signature;
+use k256::ecdsa::SigningKey;
+use k256::ecdsa::VerifyingKey;
+use k256::elliptic_curve::rand_core::OsRng;
 use sha2::{Digest, Sha256};
 use std::error::Error;
 
@@ -68,13 +72,12 @@ BTC helper tools:
 }
 
 fn generate_address() -> color_eyre::Result<(String, String)> {
-    let secp = Secp256k1::new();
-
-    let (secret_key, public_key) = secp.generate_keypair(&mut OsRng);
+    let signing_key: SigningKey = SigningKey::random(&mut OsRng);
+    let verifying_key = signing_key.verifying_key().to_sec1_bytes();
 
     Ok((
-        hex::encode(secret_key.secret_bytes()),
-        public_key.to_string(),
+        hex::encode(hex::encode(signing_key.to_bytes())),
+        hex::encode(hex::encode(verifying_key)),
     ))
 }
 
@@ -85,19 +88,19 @@ fn sign_message(private_key: &str, message: &str) -> color_eyre::Result<String> 
         return Err(color_eyre::eyre::eyre!("Private key must be 32 bytes"));
     }
 
-    let secp = Secp256k1::new();
-    let secret_key = SecretKey::from_slice(&private_key_bytes)?;
-    let public_key = secret_key.public_key(&secp);
+    let secret_key: SigningKey = SigningKey::from_slice(private_key_bytes.as_slice())
+        .expect("Unable to derive signing key.");
+    let public_key: VerifyingKey = *secret_key.verifying_key();
 
     // Hash the message
     let mut hasher = Sha256::new();
     hasher.update(message.as_bytes());
     let message_hash = hasher.finalize();
-    let message = Message::from_slice(&message_hash)?;
+    let message = message_hash.as_slice();
 
-    let signature = secp.sign_ecdsa(&message, &secret_key);
+    let signature: Signature = secret_key.sign(&message);
 
-    let result = secp.verify_ecdsa(&message, &signature, &public_key);
+    let result = public_key.verify(message, &signature);
 
     match result {
         Ok(_) => Ok(signature.to_string()),

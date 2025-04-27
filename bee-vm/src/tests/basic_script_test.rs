@@ -1,37 +1,28 @@
-use crate::{
-    execute_code,
-    opcodes::crypto_ops::hash_script,
-    opcodes::crypto_ops::{create_der_signature, SIGHASH_ALL},
-    stack::Stack,
-};
+use crate::{execute_code, opcodes::crypto_ops::hash_script, stack::Stack};
+use k256::ecdsa::signature::Signer;
+use k256::ecdsa::Signature;
+use k256::ecdsa::SigningKey;
+use k256::elliptic_curve::rand_core::OsRng;
+use ripemd::{Digest, Ripemd160};
 use rstest::rstest;
-use secp256k1::{Message, Secp256k1, SecretKey};
+use sha2::Sha256;
 
 #[rstest]
 fn test_p2sh() -> color_eyre::Result<()> {
-    let secp = Secp256k1::new();
-    let btc_address = "0227352074b4577c5dc4d56c87aada5c1ccb898cf4ac4d9ad71b4db11aa40c464e";
-    let btc_priv_key = "ddbc8c57b741d82b5740252b2544de950ffb76aab68e663d356c55ee87ddcde5";
-    let pub_key_hash = "455884c3c2f8229e74331f86454f46157a8df0a0";
-
-    let private_key_bytes = hex::decode(btc_priv_key)?;
-    let secret_key = SecretKey::from_slice(&private_key_bytes)?;
-    let public_key = secret_key.public_key(&secp).to_string();
-    // Extra check !
-    assert_eq!(btc_address, public_key);
+    let signing_key: SigningKey = SigningKey::random(&mut OsRng);
+    let verifying_key = signing_key.verifying_key().to_sec1_bytes();
+    let pub_key_hash = hash_160(hex::encode(verifying_key.clone()));
 
     let reedem_script: Vec<String> = vec![
-        public_key.clone(),
+        hex::encode(verifying_key.clone()),
         "OP_HASH160".into(),
-        pub_key_hash.into(),
+        pub_key_hash.clone(),
         "OP_EQUALVERIFY".into(),
-        public_key.clone(),
+        hex::encode(verifying_key.clone()),
         "OP_CHECKSIG".into(),
     ];
     let script_hash = hash_script(reedem_script)?;
-    let message = Message::from_digest_slice(&script_hash)?;
-    let signature = secp.sign_ecdsa(&message, &secret_key);
-    let der_signature = create_der_signature(&signature, SIGHASH_ALL);
+    let signature: Signature = signing_key.sign(script_hash.as_slice());
 
     // Bee VM P2SH script version :
     // ----------------------------
@@ -45,16 +36,16 @@ fn test_p2sh() -> color_eyre::Result<()> {
     // ----------------------------
 
     let vm_input_state: Vec<String> = vec![
-        public_key.clone(), // public key
+        hex::encode(verifying_key.clone()), // public key
         "OP_HASH160".to_string(),
         pub_key_hash.to_string(), // public key hash
         "OP_EQUALVERIFY".to_string(),
-        public_key,    // public key
-        der_signature, // signature
+        hex::encode(verifying_key),        // public key
+        hex::encode(signature.to_bytes()), // signature
         "OP_CHECKSIG".to_string(),
     ];
 
-    let exec = execute_code(vm_input_state, secp);
+    let exec = execute_code(vm_input_state);
     assert!(exec.is_ok());
     let (main_stack, _) = exec.unwrap();
     assert_eq!(main_stack, Stack::stack_from(vec!["1".to_string()]));
@@ -63,30 +54,21 @@ fn test_p2sh() -> color_eyre::Result<()> {
 
 #[rstest]
 fn test_p2pkh() -> color_eyre::Result<()> {
-    let secp = Secp256k1::new();
-    let btc_address = "0227352074b4577c5dc4d56c87aada5c1ccb898cf4ac4d9ad71b4db11aa40c464e";
-    let btc_priv_key = "ddbc8c57b741d82b5740252b2544de950ffb76aab68e663d356c55ee87ddcde5";
-    let pub_key_hash = "455884c3c2f8229e74331f86454f46157a8df0a0";
-
-    let private_key_bytes = hex::decode(btc_priv_key)?;
-    let secret_key = SecretKey::from_slice(&private_key_bytes)?;
-    let public_key = secret_key.public_key(&secp).to_string();
-    // Extra check !
-    assert_eq!(btc_address, public_key);
+    let signing_key: SigningKey = SigningKey::random(&mut OsRng);
+    let verifying_key = signing_key.verifying_key().to_sec1_bytes();
+    let pub_key_hash = hash_160(hex::encode(verifying_key.clone()));
 
     let reedem_script = vec![
-        public_key.clone(),
+        hex::encode(verifying_key.clone()),
         "OP_DUP".into(),
         "OP_HASH160".into(),
-        pub_key_hash.into(),
+        pub_key_hash.clone(),
         "OP_EQUALVERIFY".into(),
-        public_key.clone(),
+        hex::encode(verifying_key.clone()),
         "OP_CHECKSIG".into(),
     ];
     let script_hash = hash_script(reedem_script)?;
-    let message = Message::from_digest_slice(&script_hash)?;
-    let signature = secp.sign_ecdsa(&message, &secret_key);
-    let der_signature = create_der_signature(&signature, SIGHASH_ALL);
+    let signature: Signature = signing_key.sign(script_hash.as_slice());
 
     // Bee VM P2PKH script version :
     // ------------------------------------
@@ -101,19 +83,29 @@ fn test_p2pkh() -> color_eyre::Result<()> {
     // ------------------------------------
 
     let vm_input_state: Vec<String> = vec![
-        public_key.clone(), // public key
+        hex::encode(verifying_key.clone()), // public key
         "OP_DUP".to_string(),
         "OP_HASH160".to_string(),
         pub_key_hash.to_string(), // public key hash
         "OP_EQUALVERIFY".to_string(),
-        public_key,    // public key
-        der_signature, // signature
+        hex::encode(verifying_key),        // public key
+        hex::encode(signature.to_bytes()), // signature
         "OP_CHECKSIG".to_string(),
     ];
 
-    let exec = execute_code(vm_input_state, secp);
+    let exec = execute_code(vm_input_state);
     assert!(exec.is_ok());
     let (mut main_stack, _) = exec.unwrap();
     assert_eq!(main_stack.pop_from_top(), Some("1".to_string()));
     Ok(())
+}
+
+fn hash_160(data: String) -> String {
+    // sha 256
+    let hash = Sha256::digest(data);
+    // ripe md 160
+    let mut hasher = Ripemd160::new();
+    hasher.update(hash);
+    let hasher_result = hasher.finalize();
+    hex::encode(hasher_result)
 }

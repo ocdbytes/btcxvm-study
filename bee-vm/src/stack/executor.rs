@@ -48,7 +48,6 @@ use crate::opcodes::zero_not_equal::zero_not_equal;
 use crate::stack::Stack;
 use crate::utils::print_in_box;
 use color_eyre::Result;
-use secp256k1::{All, Secp256k1};
 
 /// Executes a sequence of Bitcoin script operations, maintaining both a main stack and an alternative stack.
 /// Handles control flow, cryptographic operations, and basic stack manipulation according to the Bitcoin protocol.
@@ -57,7 +56,7 @@ use secp256k1::{All, Secp256k1};
 /// and maintaining proper state for signature verification through OP_CODESEPARATOR.
 ///
 /// Returns both the main stack and alternative stack after execution completes.
-pub fn execute_code(seq: Vec<String>, secp: Secp256k1<All>) -> Result<(Stack, Stack)> {
+pub fn execute_code(seq: Vec<String>) -> Result<(Stack, Stack)> {
     let mut main_stack = Stack::new();
     let mut alt_stack = Stack::new();
     let mut ops_array: Vec<String> = vec![];
@@ -137,24 +136,16 @@ pub fn execute_code(seq: Vec<String>, secp: Secp256k1<All>) -> Result<(Stack, St
                 // ============================================
                 "OP_CHECKSIG" => {
                     if seq[last_code_separator_index..].contains(&"OP_CODESEPARATOR".to_string()) {
-                        op_checksig(
-                            &mut main_stack,
-                            &seq[last_code_separator_index + 1..],
-                            &secp,
-                        )?
+                        op_checksig(&mut main_stack, &seq[last_code_separator_index + 1..])?
                     } else {
-                        op_checksig(&mut main_stack, &seq, &secp)?
+                        op_checksig(&mut main_stack, &seq)?
                     }
                 }
                 "OP_CHECKSIGVERIFY" => {
                     if seq[last_code_separator_index..].contains(&"OP_CODESEPARATOR".to_string()) {
-                        op_checksig(
-                            &mut main_stack,
-                            &seq[last_code_separator_index + 1..],
-                            &secp,
-                        )?
+                        op_checksig(&mut main_stack, &seq[last_code_separator_index + 1..])?
                     } else {
-                        op_checksig(&mut main_stack, &seq, &secp)?
+                        op_checksig(&mut main_stack, &seq)?
                     }
                     verify(&mut main_stack)?
                 }
@@ -165,24 +156,16 @@ pub fn execute_code(seq: Vec<String>, secp: Secp256k1<All>) -> Result<(Stack, St
                 "OP_HASH256" => hash_256(&mut main_stack)?,
                 "OP_CHECKMULTISIG" => {
                     if seq[last_code_separator_index..].contains(&"OP_CODESEPARATOR".to_string()) {
-                        op_checkmultisig(
-                            &mut main_stack,
-                            &seq[last_code_separator_index + 1..],
-                            &secp,
-                        )?
+                        op_checkmultisig(&mut main_stack, &seq[last_code_separator_index + 1..])?
                     } else {
-                        op_checkmultisig(&mut main_stack, &seq, &secp)?
+                        op_checkmultisig(&mut main_stack, &seq)?
                     }
                 }
                 "OP_CHECKMULTISIGVERIFY" => {
                     if seq[last_code_separator_index..].contains(&"OP_CODESEPARATOR".to_string()) {
-                        op_checkmultisig(
-                            &mut main_stack,
-                            &seq[last_code_separator_index + 1..],
-                            &secp,
-                        )?
+                        op_checkmultisig(&mut main_stack, &seq[last_code_separator_index + 1..])?
                     } else {
-                        op_checkmultisig(&mut main_stack, &seq, &secp)?
+                        op_checkmultisig(&mut main_stack, &seq)?
                     }
                     verify(&mut main_stack)?
                 }

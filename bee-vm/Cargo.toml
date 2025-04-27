@@ -18,7 +18,7 @@ log = "0.4.22"
 env_logger = "0.11.5"
 
 # Crypto Deps :
-secp256k1 = "0.30.0"
+k256 = { version = "0.13", features = ["serde"] }
 sha2 = "0.10.0"
 rand = "0.9.0-alpha.2"
 ripemd = "0.1.3"

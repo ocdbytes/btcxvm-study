@@ -1,7 +1,6 @@
 use crate::stack::executor::execute_code;
 use crate::stack::Stack;
 use rstest::rstest;
-use secp256k1::Secp256k1;
 
 #[rstest]
 #[case(
@@ -58,10 +57,8 @@ fn test_execute_code_success(
     #[case] expected_alt: Vec<&str>,
     #[case] test_name: &str,
 ) -> color_eyre::Result<()> {
-    let secp = Secp256k1::new();
-
     let opcodes = opcodes.into_iter().map(String::from).collect();
-    let (main_stack, alt_stack) = execute_code(opcodes, secp)?;
+    let (main_stack, alt_stack) = execute_code(opcodes)?;
 
     assert_eq!(
         main_stack,
@@ -88,10 +85,8 @@ fn test_execute_code_success(
 #[case(vec!["OP_IF", "1", "OP_ENDIF"], "If without condition")]
 #[case(vec!["OP_UNKNOWN"], "Unknown opcode")]
 fn test_execute_code_failure(#[case] opcodes: Vec<&str>, #[case] test_name: &str) {
-    let secp = Secp256k1::new();
-
     let opcodes = opcodes.into_iter().map(String::from).collect();
-    let result = execute_code(opcodes, secp);
+    let result = execute_code(opcodes);
     println!(">>> result : {:?}", result);
     assert!(result.is_err(), "Expected error for test: {}", test_name);
 }
@@ -109,10 +104,8 @@ fn test_complex_control_flow(
     #[case] expected_alt: Vec<&str>,
     #[case] test_name: &str,
 ) -> color_eyre::Result<()> {
-    let secp = Secp256k1::new();
-
     let opcodes = opcodes.into_iter().map(String::from).collect();
-    let (main_stack, alt_stack) = execute_code(opcodes, secp)?;
+    let (main_stack, alt_stack) = execute_code(opcodes)?;
 
     assert_eq!(
         main_stack,
